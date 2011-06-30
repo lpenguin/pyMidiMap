@@ -19,9 +19,62 @@ from gui.LogDialog import LogDialog
 class MainWindow(QMainWindow, Ui_MainWindow):    
     settings = Settings()
 
+    def midiCallback(self, midiMessage):
+        self.print_message( midiMessage )
+
+    def print_message(self, midi):
+        str = ''
+        if midi.isNoteOn():
+            str = '%s %s %s'%( 'ON: ', midi.getMidiNoteName(midi.getNoteNumber()) , midi.getVelocity() )
+        elif midi.isNoteOff():
+            str = ''.join( ['OFF:', midi.getMidiNoteName(midi.getNoteNumber())] )
+        elif midi.isController():
+            str = ''.join( ['CONTROLLER', midi.getControllerNumber(), midi.getControllerValue()] )
+        elif midi.isSysEx():
+            str = ''.join( ['SYSEX (%i bytes)' % midi.getSysExData()] )
+        elif midi.isAftertouch():
+            str = ''.join( ['AFTERTOUCH: ', midi.getAfterTouchValue()] )
+        print( str )
+        self.mapMidiMessage( midi )
+        #self.logDialog.logEdit.setPlainText('%s\n%s' % (self.logDialog.logEdit.toPlainText(), str) )
+        #self.logDialog.logEdit.toPlainText()+'\n'+
+
+    def mapMidiMessage(self, midiMessage):
+        for map in self.mapList.maps():
+            self.processMidiMessage( map, midiMessage)
+
+    def processMidiMessage(self, map, midi):
+        if self.processFilter( map, midi ):
+            self.processAction(map, midi)
+            
+    def processAction(self, map, midi):
+        pass
+    
+    def processFilter(self, map, midi):
+        if map.message.channel != '' and map.message.status != midi.getChannel():
+            return False
+        if map.message.status != '' and map.message.status != midi.getStatus():
+            return False
+
+        data = midi.getRawData()
+        dt1 = None
+        dt2 = None
+        if len( data ) >= 2:
+            dt1 = ord( data[1] )
+        if len( data ) >= 3:
+            dt2 = ord( data[2] )
+
+        if map.message.data1 != '' and dt1 != None and map.message.data1 != dt1:
+            return False
+        if map.message.data2 != '' and dt2 != None and map.message.data1 != dt2:
+            return False
+
+        return True
+    
     def initPorts(self):
         self.settings.midiIn.openPort(0)
         self.settings.midiOut.openPort(0)
+        self.settings.midiIn.setCallback( self.midiCallback )
         self.settings.midiInPort = 0
         self.settings.midiOutPort = 0
         
