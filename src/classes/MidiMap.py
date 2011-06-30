@@ -4,23 +4,23 @@ from Misc import *
 Modify = enum('Add', 'Assign')
 
 class MidiMessage(object):
-    channel = 0
-    status = 0
-    data1 = 0
-    data2 = 0
-    def __init__(self, channel = '0', status = '0', data1 = '0', data2 = '0'):
+    channel = ''
+    status = ''
+    data1 = ''
+    data2 = ''
+    def __init__(self, channel = '', status = '', data1 = '', data2 = ''):
         self.channel = channel
         self.status = status
         self.data1 = data1
         self.data2 = data2
 
     def toString(self):
-        return 'ch '+self.channel+' st '+self.status+' d1 '+self.data1+' d2 '+self.data2
+        return 'ch: '+self.channel+', st: '+self.status+', d1: '+self.data1+', d2: '+self.data2
 
 class MappedValue(object):
     type = 0
-    value = 0
-    def __init__(self, value=0, type = Modify.Add):
+    value = ''
+    def __init__(self, value='', type = Modify.Add):
         self.type = type
         self.value = value
         
@@ -56,7 +56,17 @@ class MidiMessageAction(MapAction):
         self.data1 = data1
         self.data2 = data2
     def toString(self):
-        return 'midi: ch%s st%s d1%s d2%s' % (self.channel.toString(), self.status.toString(), self.data1.toString(), self.data2.toString())
+        modifyers = []
+        if self.channel.value != '':
+            modifyers.append('ch%s'%(self.channel.toString()))
+        if self.status.value != '':
+            modifyers.append('st%s'%(self.status.toString()))
+        if self.data1.value != '':
+            modifyers.append('dt1%s'%(self.data1.toString()))
+        if self.data2.value != '':
+            modifyers.append('dt2%s'%(self.data2.toString()))
+
+        return 'midi: %s' % (', '.join(modifyers))
 
 
 class MidiMap(object):

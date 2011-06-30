@@ -31,7 +31,6 @@ class MidiSettingsDialog(QDialog, Ui_MidiForm):
             self.midiInList.addItem(QListWidgetItem(midiIn.getPortName(i)))
 
 
-                    
         midiOut = self.settings.midiOut
         ports = range(midiOut.getPortCount())
         for i in ports:
@@ -49,8 +48,17 @@ class MidiSettingsDialog(QDialog, Ui_MidiForm):
         QDialog.show(self)
           
     def accept(self):
-        self.settings.midiInPort = self.midiInList.currentRow()
-        self.settings.midiOutPort = self.midiOutList.currentRow()
+        inRow = self.midiInList.selectedIndexes().pop().row()
+        outRow = self.midiOutList.selectedIndexes().pop().row()
+
+        if inRow == -1:
+            inRow = 0
+        if outRow == -1:
+            outRow = 0
+
+
+        self.settings.midiInPort = inRow
+        self.settings.midiOutPort = outRow
         QDialog.accept(self)
     
     def reject(self):

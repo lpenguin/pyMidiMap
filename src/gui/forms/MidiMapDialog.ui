@@ -34,7 +34,7 @@
        <item row="0" column="1">
         <widget class="QLineEdit" name="inChannelEdit">
          <property name="text">
-          <string>0</string>
+          <string/>
          </property>
         </widget>
        </item>
@@ -62,21 +62,21 @@
        <item row="2" column="1">
         <widget class="QLineEdit" name="inStatusEdit">
          <property name="text">
-          <string>0</string>
+          <string/>
          </property>
         </widget>
        </item>
        <item row="4" column="1">
         <widget class="QLineEdit" name="inData1Edit">
          <property name="text">
-          <string>0</string>
+          <string/>
          </property>
         </widget>
        </item>
        <item row="5" column="1">
         <widget class="QLineEdit" name="inData2Edit">
          <property name="text">
-          <string>0</string>
+          <string/>
          </property>
         </widget>
        </item>
@@ -158,7 +158,7 @@
            <item row="0" column="1">
             <widget class="QLineEdit" name="outChannelEdit">
              <property name="text">
-              <string>0</string>
+              <string/>
              </property>
             </widget>
            </item>
@@ -172,7 +172,7 @@
            <item row="1" column="1">
             <widget class="QLineEdit" name="outStatusEdit">
              <property name="text">
-              <string>0</string>
+              <string/>
              </property>
             </widget>
            </item>
@@ -186,7 +186,7 @@
            <item row="2" column="1">
             <widget class="QLineEdit" name="outData1Edit">
              <property name="text">
-              <string>0</string>
+              <string/>
              </property>
             </widget>
            </item>
@@ -194,13 +194,6 @@
             <widget class="QLabel" name="label_6">
              <property name="text">
               <string>Data 2</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QLineEdit" name="outData2Edit">
-             <property name="text">
-              <string>0</string>
              </property>
             </widget>
            </item>
@@ -258,6 +251,13 @@
                <string>Assign</string>
               </property>
              </item>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="outData2Edit">
+             <property name="text">
+              <string/>
+             </property>
             </widget>
            </item>
           </layout>
