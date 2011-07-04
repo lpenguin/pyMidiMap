@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>487</width>
-    <height>270</height>
+    <width>504</width>
+    <height>268</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,63 +24,21 @@
        <string>Midi Input</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Channel</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="inChannelEdit">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Status</string>
-         </property>
-        </widget>
-       </item>
        <item row="4" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>Data 1</string>
+          <string>Value 1</string>
          </property>
         </widget>
        </item>
        <item row="5" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
-          <string>Data 2</string>
+          <string>Value 2</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="inStatusEdit">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QLineEdit" name="inData1Edit">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QLineEdit" name="inData2Edit">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
+       <item row="0" column="3">
         <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -93,7 +51,7 @@
          </property>
         </spacer>
        </item>
-       <item row="7" column="1">
+       <item row="7" column="2">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -106,10 +64,172 @@
          </property>
         </spacer>
        </item>
-       <item row="6" column="1">
+       <item row="6" column="2">
         <widget class="QCheckBox" name="midiCaptureCheckBox">
          <property name="text">
           <string>Midi Capture</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QComboBox" name="inEventCombo">
+         <item>
+          <property name="text">
+           <string>Any</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Note On</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Note Off</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Aftertouch</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Control</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Program Change</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Pitchbend</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Event</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Channel</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QComboBox" name="inChannelCombo">
+         <item>
+          <property name="text">
+           <string>Any</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>3</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>4</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>5</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>6</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>7</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>8</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>9</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>10</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>11</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>12</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>13</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>14</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>15</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>16</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QLineEdit" name="inValue1Edit"/>
+       </item>
+       <item row="5" column="2">
+        <widget class="QLineEdit" name="inValue2Edit"/>
+       </item>
+       <item row="4" column="3">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>* Empty means any value</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="3">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>* Empty means any value</string>
          </property>
         </widget>
        </item>
@@ -119,166 +239,262 @@
       <attribute name="title">
        <string>Action</string>
       </attribute>
-      <widget class="QWidget" name="layoutWidget">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>10</y>
-         <width>451</width>
-         <height>264</height>
-        </rect>
-       </property>
-       <layout class="QFormLayout" name="formLayout">
-        <item row="0" column="0">
-         <widget class="QRadioButton" name="outMidiRadioButton">
-          <property name="text">
-           <string>Midi Message</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QFrame" name="frame">
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_2">
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_8">
-             <property name="text">
-              <string>Channel</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLineEdit" name="outChannelEdit">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_7">
-             <property name="text">
-              <string>Status</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLineEdit" name="outStatusEdit">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_5">
-             <property name="text">
-              <string>Data 1</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="outData1Edit">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_6">
-             <property name="text">
-              <string>Data 2</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QComboBox" name="outChannelCombo">
-             <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QFormLayout" name="formLayout">
+         <item row="0" column="0">
+          <widget class="QRadioButton" name="outMidiRadioButton">
+           <property name="text">
+            <string>Midi Message</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QFrame" name="frame">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_2">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_8">
               <property name="text">
-               <string>Add</string>
+               <string>Channel</string>
               </property>
-             </item>
-             <item>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QComboBox" name="outChannelCombo">
+              <item>
+               <property name="text">
+                <string>Same as input</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>1</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>2</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>3</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>4</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>5</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>6</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>7</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>8</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>9</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>10</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>11</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>12</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>13</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>14</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>15</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>16</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_7">
               <property name="text">
-               <string>Assign</string>
+               <string>Event</string>
               </property>
-             </item>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QComboBox" name="outStatusCombo">
-             <item>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QComboBox" name="outEventCombo">
+              <item>
+               <property name="text">
+                <string>Same as input</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Note On</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Note Off</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Aftertouch</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Control</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Program Change</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Pitchbend</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_5">
               <property name="text">
-               <string>Add</string>
+               <string>Value 1</string>
               </property>
-             </item>
-             <item>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="outValue1Edit">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
               <property name="text">
-               <string>Assign</string>
+               <string/>
               </property>
-             </item>
-            </widget>
-           </item>
-           <item row="2" column="2">
-            <widget class="QComboBox" name="outData1Combo">
-             <item>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QComboBox" name="outValue1Combo">
+              <item>
+               <property name="text">
+                <string>Same as input</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Add</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Assign</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_6">
               <property name="text">
-               <string>Add</string>
+               <string>Value 2</string>
               </property>
-             </item>
-             <item>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="outValue2Edit">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
               <property name="text">
-               <string>Assign</string>
+               <string/>
               </property>
-             </item>
-            </widget>
-           </item>
-           <item row="3" column="2">
-            <widget class="QComboBox" name="outData2Combo">
-             <item>
-              <property name="text">
-               <string>Add</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Assign</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QLineEdit" name="outData2Edit">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QRadioButton" name="ouKeyRadioButton">
-          <property name="text">
-           <string>Key Sequence</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="outKeyEdit">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
+             </widget>
+            </item>
+            <item row="4" column="2">
+             <widget class="QComboBox" name="outValue2Combo">
+              <item>
+               <property name="text">
+                <string>Same as input</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Add</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Assign</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QRadioButton" name="ouKeyRadioButton">
+           <property name="text">
+            <string>Key Sequence</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="outKeyEdit">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>

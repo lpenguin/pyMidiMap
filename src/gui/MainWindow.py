@@ -5,6 +5,7 @@ Created on 28.06.2011
 '''
 from PyQt4.QtGui import QMainWindow
 from PyQt4.QtGui import QDialog
+from PyQt4.QtCore import *
 
 from forms.Ui_MainWindow import Ui_MainWindow
 from MidiSettingsDialog import MidiSettingsDialog
@@ -13,6 +14,8 @@ from classes.Settings import Settings
 from classes.MidiMap import *
 from MidiMapModel import *
 import copy
+import rtmidi
+import classes.pykey
 
 from gui.LogDialog import LogDialog
 
@@ -22,8 +25,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def midiCallback(self, midiMessage):
         self.print_message( midiMessage )
 
-    def print_message(self, midi):
-        str = ''
+    def messageToStr(self, midi):
+        str = 'msg'
         if midi.isNoteOn():
             str = '%s %s %s'%( 'ON: ', midi.getMidiNoteName(midi.getNoteNumber()) , midi.getVelocity() )
         elif midi.isNoteOff():
@@ -34,26 +37,113 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             str = ''.join( ['SYSEX (%i bytes)' % midi.getSysExData()] )
         elif midi.isAftertouch():
             str = ''.join( ['AFTERTOUCH: ', midi.getAfterTouchValue()] )
-        print( str )
-        self.mapMidiMessage( midi )
-        #self.logDialog.logEdit.setPlainText('%s\n%s' % (self.logDialog.logEdit.toPlainText(), str) )
-        #self.logDialog.logEdit.toPlainText()+'\n'+
+        elif midi.isPitchWeel():
+            str = ''.join( ['PITCHWEEL: ', midi.getPitchWheelValue()] )
+        return  str
 
+    def print_message(self, midi):
+        str = self.messageToStr(midi)
+        self.mapMidiMessage( midi )
+        self.sendToLog(str)
+
+    def sendToLog(self, message):
+        self.emit(SIGNAL('newLogMessage'), message)
+        
+    def printToLog(self, message):
+        if self.logDialog.logEdit.toPlainText():
+            self.logDialog.logEdit.setPlainText('%s\n%s' % (self.logDialog.logEdit.toPlainText(), message) )
+        else:
+            self.logDialog.logEdit.setPlainText( message )
+
+    
     def mapMidiMessage(self, midiMessage):
         for map in self.mapList.maps():
             self.processMidiMessage( map, midiMessage)
 
     def processMidiMessage(self, map, midi):
         if self.processFilter( map, midi ):
+            print "Filter ok"
             self.processAction(map, midi)
-            
+
     def processAction(self, map, midi):
-        pass
+        print "remapping midi"
+
+        data = self.translateRawData(midi)
+        resMidi = rtmidi.MidiMessage()
+        channel = midi.getChannel()
+        action = map.action
+        if isinstance(map.action, MidiMessageAction):
+            print "message"
+
+            value1 = data.value1
+            value2 = data.value2
+            if action.value1.type != Modify.Same:
+                value1 = action.value1.value
+
+            if action.value2.type != Modify.Same:
+                value2 = action.value2.value
+
+            if action.channel:
+                channel = action.channel
+            if action.event == EventType.Any:
+                midi.setChannel(channel)
+                resMidi = midi
+            elif action.event == EventType.NoteOn:
+                resMidi = rtmidi.MidiMessage.noteOn(channel, value1, value2 )
+            elif action.event == EventType.NoteOff:
+                resMidi = rtmidi.MidiMessage.noteOff(channel, value1 )
+            elif action.event == EventType.Aftertouch:
+                resMidi = rtmidi.MidiMessage.aftertouchChange( chennel, value1, value2)
+            elif action.event == EventType.Control:
+                resMidi = rtmidi.MidiMessage.controllerEvent( channel, value1, value2)
+            elif action.event == EventType.ProgramChange:
+                resMidi = rtmidi.MidiMessage.programChange( channel, value1)
+            elif action.event == EventType.Pitchbend:
+                resMidi = rtmidi.MidiMessage.pitchWheel( channel, value1)
+            else:
+                self.sendToLog('wrong message')
+                return
+        else:
+            print "keys"+" ".join(action.keys)
+            classes.pykey.send_string("".join(action.keys))
+        print self.messageToStr(midi)
+        self.settings.midiOut.sendMessage( resMidi )
+
+
+    def translateRawData(self, midi):
+        channel = midi.getChannel()
+        
+        value1 = None
+        value2 = None
+        if midi.isNoteOn():
+            value1 = midi.getNoteNumber()
+            value2 = midi.getVelocity()
+        elif midi.isNoteOff():
+            value1 = midi.getNoteNumber()
+        elif  midi.isProgramChange():
+            value1 = midi.getProgramChangeNumber()
+    
+        return { "channel": channel, "value1": value1, "value2": value2 }
+
+    def getEvent(self, midi ):
+        if midi.isNoteOn():
+            return EventType.NoteOn
+        if midi.isNoteOff():
+            return EventType.NoteOff
+        if midi.isAftertouch():
+            return EventType.Aftertouch
+        if midi.isController():
+            return EventType.Control
+        if midi.isProgramChange():
+            return EventType.ProgramChange
+        if midi.isPitchWeel():
+            return EventType.Pitchbend
+        return None
     
     def processFilter(self, map, midi):
-        if map.message.channel != '' and map.message.status != midi.getChannel():
+        if map.message.channel != 0 and map.message.channel != midi.getChannel():
             return False
-        if map.message.status != '' and map.message.status != midi.getStatus():
+        if map.message.event != EventType.Any and map.message.event != self.getEvent( midi ):
             return False
 
         data = midi.getRawData()
@@ -64,9 +154,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if len( data ) >= 3:
             dt2 = ord( data[2] )
 
-        if map.message.data1 != '' and dt1 != None and map.message.data1 != dt1:
+        if map.message.value1 != '' and dt1 != None and map.message.data1 != dt1:
             return False
-        if map.message.data2 != '' and dt2 != None and map.message.data1 != dt2:
+        if map.message.value2 != '' and dt2 != None and map.message.data1 != dt2:
             return False
 
         return True
@@ -77,7 +167,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.settings.midiIn.setCallback( self.midiCallback )
         self.settings.midiInPort = 0
         self.settings.midiOutPort = 0
-        
+        self.connect( self, SIGNAL('newLogMessage'), self.printToLog)
         pass
     def setSettings(self, _settings):
         self.settings = _settings
