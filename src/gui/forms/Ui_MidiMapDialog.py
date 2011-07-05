@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/home/prian/workspace/pyMidiMap/src/gui/forms/MidiMapDialog.ui'
 #
-# Created: Fri Jul  1 14:44:46 2011
+# Created: Tue Jul  5 13:28:01 2011
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,7 +17,7 @@ except AttributeError:
 class Ui_MidiMapDialog(object):
     def setupUi(self, MidiMapDialog):
         MidiMapDialog.setObjectName(_fromUtf8("MidiMapDialog"))
-        MidiMapDialog.resize(504, 268)
+        MidiMapDialog.resize(504, 276)
         self.verticalLayout = QtGui.QVBoxLayout(MidiMapDialog)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
         self.mapperTabBox = QtGui.QTabWidget(MidiMapDialog)
@@ -172,10 +172,17 @@ class Ui_MidiMapDialog(object):
         self.ouKeyRadioButton = QtGui.QRadioButton(self.ActionTab)
         self.ouKeyRadioButton.setObjectName(_fromUtf8("ouKeyRadioButton"))
         self.formLayout.setWidget(1, QtGui.QFormLayout.LabelRole, self.ouKeyRadioButton)
+        self.horizontalLayout = QtGui.QHBoxLayout()
+        self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         self.outKeyEdit = QtGui.QLineEdit(self.ActionTab)
         self.outKeyEdit.setEnabled(False)
+        self.outKeyEdit.setReadOnly(True)
         self.outKeyEdit.setObjectName(_fromUtf8("outKeyEdit"))
-        self.formLayout.setWidget(1, QtGui.QFormLayout.FieldRole, self.outKeyEdit)
+        self.horizontalLayout.addWidget(self.outKeyEdit)
+        self.clearButton = QtGui.QPushButton(self.ActionTab)
+        self.clearButton.setObjectName(_fromUtf8("clearButton"))
+        self.horizontalLayout.addWidget(self.clearButton)
+        self.formLayout.setLayout(1, QtGui.QFormLayout.FieldRole, self.horizontalLayout)
         self.verticalLayout_2.addLayout(self.formLayout)
         self.mapperTabBox.addTab(self.ActionTab, _fromUtf8(""))
         self.verticalLayout.addWidget(self.mapperTabBox)
@@ -186,12 +193,13 @@ class Ui_MidiMapDialog(object):
         self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(MidiMapDialog)
-        self.mapperTabBox.setCurrentIndex(0)
+        self.mapperTabBox.setCurrentIndex(1)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), MidiMapDialog.accept)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), MidiMapDialog.reject)
         QtCore.QObject.connect(self.midiCaptureCheckBox, QtCore.SIGNAL(_fromUtf8("clicked()")), MidiMapDialog.midiCaptureClicked)
         QtCore.QObject.connect(self.ouKeyRadioButton, QtCore.SIGNAL(_fromUtf8("clicked()")), MidiMapDialog.keySequenceClicked)
         QtCore.QObject.connect(self.outMidiRadioButton, QtCore.SIGNAL(_fromUtf8("clicked()")), MidiMapDialog.midiMessageClicked)
+        QtCore.QObject.connect(self.clearButton, QtCore.SIGNAL(_fromUtf8("pressed()")), MidiMapDialog.clearButtonPressed)
         QtCore.QMetaObject.connectSlotsByName(MidiMapDialog)
 
     def retranslateUi(self, MidiMapDialog):
@@ -264,5 +272,6 @@ class Ui_MidiMapDialog(object):
         self.outValue2Combo.setItemText(1, QtGui.QApplication.translate("MidiMapDialog", "Add", None, QtGui.QApplication.UnicodeUTF8))
         self.outValue2Combo.setItemText(2, QtGui.QApplication.translate("MidiMapDialog", "Assign", None, QtGui.QApplication.UnicodeUTF8))
         self.ouKeyRadioButton.setText(QtGui.QApplication.translate("MidiMapDialog", "Key Sequence", None, QtGui.QApplication.UnicodeUTF8))
+        self.clearButton.setText(QtGui.QApplication.translate("MidiMapDialog", "Clear", None, QtGui.QApplication.UnicodeUTF8))
         self.mapperTabBox.setTabText(self.mapperTabBox.indexOf(self.ActionTab), QtGui.QApplication.translate("MidiMapDialog", "Action", None, QtGui.QApplication.UnicodeUTF8))
 

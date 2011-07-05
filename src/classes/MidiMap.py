@@ -50,8 +50,10 @@ class MapAction(object):
     
 class KeyPressAction(MapAction):
     keys = []
-    def __init__(self, keys = []):
+    keyCodes = []
+    def __init__(self, keys = [], keyCodes = []):
         self.keys = keys
+        self.keyCodes = keyCodes
 
     def toString(self):
         return 'keys: '+', '.join(self.keys)

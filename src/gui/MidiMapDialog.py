@@ -3,19 +3,19 @@ Created on 28.06.2011
 
 @author: prian
 '''
-from PyQt4.Qt import QString
-
 from forms.Ui_MidiMapDialog import Ui_MidiMapDialog
-
-from PyQt4.QtGui import QDialog
 
 from classes.Settings import Settings
 from classes.MidiMap import *
+from PyQt4.Qt import *
+import platform
 
 class MidiMapDialog(QDialog, Ui_MidiMapDialog):
     settings = Settings()
     map = MidiMap()
-    
+    keys = []
+    keyCodes = []
+
     def __init__(self, parent=None):
         QDialog.__init__(self, parent)
         self.setupUi(self)
@@ -93,6 +93,7 @@ class MidiMapDialog(QDialog, Ui_MidiMapDialog):
             #self.outData1Edit.setText( '' )
             #self.outData2Edit.setText( '' )
             keys = ''
+            
             if self.map.action.keys:
                 keys = ' '.join(self.map.action.keys)
             self.outKeyEdit.setText(keys)
@@ -106,7 +107,7 @@ class MidiMapDialog(QDialog, Ui_MidiMapDialog):
         self.map.message.value2 = self.inValue2Edit.text()
 
         if self.ouKeyRadioButton.isChecked():
-            self.map.action = KeyPressAction(str(self.outKeyEdit.text()).split(' '))
+            self.map.action = KeyPressAction( self.keys, self.keyCodes)
         else:
             channel = self.outChannelCombo.currentIndex()
             event = self.outEventCombo.currentIndex()
@@ -115,3 +116,20 @@ class MidiMapDialog(QDialog, Ui_MidiMapDialog):
 
             self.map.action = MidiMessageAction( channel, event, value1, value2 )
         QDialog.accept(self)
+
+    def keyPressEvent(self, event):
+        if self.ouKeyRadioButton.isChecked():
+            seq = QKeySequence( event.key() )
+            text = QString( seq )
+            self.keyCodes.append( event.nativeVirtualKey() )
+            self.keys.append( str( text ) )
+
+            self.outKeyEdit.setText( '')
+            for code in self.keys:
+                    self.outKeyEdit.setText( self.outKeyEdit.text()+' '+code)
+            print "key press:", text
+
+    def clearButtonPressed(self):
+        self.keys = []
+        self.keyCodes = []
+        self.outKeyEdit.setText( '')

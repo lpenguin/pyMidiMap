@@ -6,18 +6,22 @@ Created on 28.06.2011
 from PyQt4.QtGui import QMainWindow
 from PyQt4.QtGui import QDialog
 from PyQt4.QtCore import *
+from PyQt4.QtCore import QCoreApplication
+
 
 from forms.Ui_MainWindow import Ui_MainWindow
 from MidiSettingsDialog import MidiSettingsDialog
 from MidiMapDialog import MidiMapDialog
 from classes.Settings import Settings
 from classes.MidiMap import *
-from MidiMapModel import *
+from classes.KeySender import SendKeyPress
+
 import copy
 import rtmidi
-import classes.pykey
+import sys
 
 from gui.LogDialog import LogDialog
+import traceback
 
 class MainWindow(QMainWindow, Ui_MainWindow):    
     settings = Settings()
@@ -65,81 +69,109 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print "Filter ok"
             self.processAction(map, midi)
 
-    def processAction(self, map, midi):
-        print "remapping midi"
-
-        data = self.translateRawData(midi)
-        resMidi = rtmidi.MidiMessage()
-        channel = midi.getChannel()
-        action = map.action
-        if isinstance(map.action, MidiMessageAction):
-            print "message"
-
-            value1 = data.value1
-            value2 = data.value2
-            if action.value1.type != Modify.Same:
-                value1 = action.value1.value
-
-            if action.value2.type != Modify.Same:
-                value2 = action.value2.value
-
-            if action.channel:
-                channel = action.channel
-            if action.event == EventType.Any:
-                midi.setChannel(channel)
-                resMidi = midi
-            elif action.event == EventType.NoteOn:
-                resMidi = rtmidi.MidiMessage.noteOn(channel, value1, value2 )
-            elif action.event == EventType.NoteOff:
-                resMidi = rtmidi.MidiMessage.noteOff(channel, value1 )
-            elif action.event == EventType.Aftertouch:
-                resMidi = rtmidi.MidiMessage.aftertouchChange( chennel, value1, value2)
-            elif action.event == EventType.Control:
-                resMidi = rtmidi.MidiMessage.controllerEvent( channel, value1, value2)
-            elif action.event == EventType.ProgramChange:
-                resMidi = rtmidi.MidiMessage.programChange( channel, value1)
-            elif action.event == EventType.Pitchbend:
-                resMidi = rtmidi.MidiMessage.pitchWheel( channel, value1)
-            else:
-                self.sendToLog('wrong message')
-                return
-        else:
-            print "keys"+" ".join(action.keys)
-            classes.pykey.send_string("".join(action.keys))
-        print self.messageToStr(midi)
-        self.settings.midiOut.sendMessage( resMidi )
-
-
-    def translateRawData(self, midi):
-        channel = midi.getChannel()
+    def data2Midi(self, channel = 0, event = EventType.Any, value1 = None, value2 = None):
         
+        if event == EventType.NoteOn:
+            return rtmidi.MidiMessage.noteOn(channel, value1, value2 )
+        elif event == EventType.NoteOff:
+            return rtmidi.MidiMessage.noteOff(channel, value1 )
+        elif event == EventType.Aftertouch:
+            return rtmidi.MidiMessage.aftertouchChange( channel, value1, value2)
+        elif event == EventType.Control:
+            return rtmidi.MidiMessage.controllerEvent( channel, value1, value2)
+        elif event == EventType.ProgramChange:
+            return rtmidi.MidiMessage.programChange( channel, value1)
+        elif event == EventType.Pitchbend:
+            return rtmidi.MidiMessage.pitchWheel( channel, value1)
+        
+        return None
+
+    def midi2data(self, midi):
+        channel = midi.getChannel()
         value1 = None
         value2 = None
+        event = None
         if midi.isNoteOn():
+            event = EventType.NoteOn
             value1 = midi.getNoteNumber()
             value2 = midi.getVelocity()
-        elif midi.isNoteOff():
-            value1 = midi.getNoteNumber()
-        elif  midi.isProgramChange():
-            value1 = midi.getProgramChangeNumber()
-    
-        return { "channel": channel, "value1": value1, "value2": value2 }
-
-    def getEvent(self, midi ):
-        if midi.isNoteOn():
-            return EventType.NoteOn
         if midi.isNoteOff():
-            return EventType.NoteOff
+            event = EventType.NoteOff
+            value1 = midi.getNoteNumber()
         if midi.isAftertouch():
-            return EventType.Aftertouch
+            event = EventType.Aftertouch
+            value1 = midi.getNoteNumber()
+            value2 = midi.getAfterTouchValue()
         if midi.isController():
-            return EventType.Control
+            event = EventType.Control
+            value1 = midi.getControllerNumber()
+            value2 = midi.getControllerValue()
         if midi.isProgramChange():
-            return EventType.ProgramChange
-        if midi.isPitchWeel():
-            return EventType.Pitchbend
-        return None
-    
+            event = EventType.ProgramChange
+            value1 = midi.getProgramChangeNumber()
+        if midi.isPitchWheel():
+            event = EventType.Pitchbend
+            value1 = midi.getPitchWheelValue()
+        return dict( channel=channel, event = event, value1 = value1, value2 = value2 )
+
+    def processAction(self, map, midi):
+        print "remapping midi"
+        action = map.action
+        try:
+            if isinstance(map.action, MidiMessageAction):
+                print "message"
+                data = self.midi2data(midi)
+                value1 = data['value1']
+                value2 = data['value2']
+                event = data['event']
+                channel = data['channel']
+
+                if action.value1.type != Modify.Same:
+                    value1 = action.value1.value
+                if action.value2.type != Modify.Same:
+                    value2 = action.value2.value
+                if action.channel:
+                    channel = action.channel
+                if action.event != EventType.Any:
+                    event = action.event
+
+                resMidi = self.data2Midi( channel, event, value1, value2 )
+                if resMidi:
+                    self.settings.midiOut.sendMessage( resMidi )
+                else:
+                    print "wrong message"
+            else:
+                for key in action.keyCodes:
+                    SendKeyPress(key)
+
+        except Exception, err:
+            print "Exception:", err
+            traceback.print_exc(file=sys.stdout)
+            
+        except :
+            print "Unexpected error:", sys.exc_info()[0]
+            traceback.print_exc(file=sys.stdout)
+            #classes.pykey.send_string("".join(action.keys))
+
+
+
+
+#    def translateRawData(self, midi):
+#        channel = midi.getChannel()
+#        
+#        value1 = None
+#        value2 = None
+#        if midi.isNoteOn():
+#            value1 = midi.getNoteNumber()
+#            value2 = midi.getVelocity()
+#        elif midi.isNoteOff():
+#            value1 = midi.getNoteNumber()
+#        elif  midi.isProgramChange():
+#            value1 = midi.getProgramChangeNumber()
+#
+#        return { "channel": channel, "value1": value1, "value2": value2 }
+
+
     def processFilter(self, map, midi):
         if map.message.channel != 0 and map.message.channel != midi.getChannel():
             return False
@@ -192,7 +224,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.midiMapDialog.map = MidiMap
         if self.midiMapDialog.exec_() == QDialog.Accepted:
             self.mapList.addMidiMap(self.midiMapDialog.map)
-    
+
+
+
     def editMap(self):
         row  = self.mapList.currentRow()
         if row == -1:
