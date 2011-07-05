@@ -46,5 +46,9 @@ class MidiMapTableWidget(QTableWidget):
     def maps(self):
         return self.__maps
 
-    def setMaps(self, value):
-        self.__maps = value
+    def setMaps(self, maps):
+        self.__maps = []
+        for i in range(len(self.__maps)):
+            self.removeMidiMap(0)
+        for map in maps:
+            self.addMidiMap(map)

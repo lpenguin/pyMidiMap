@@ -7,7 +7,7 @@ from PyQt4.QtGui import QMainWindow
 from PyQt4.QtGui import QDialog
 from PyQt4.QtCore import *
 from PyQt4.QtCore import QCoreApplication
-
+from PyQt4.QtGui import QFileDialog
 
 from forms.Ui_MainWindow import Ui_MainWindow
 from MidiSettingsDialog import MidiSettingsDialog
@@ -19,13 +19,14 @@ from classes.KeySender import SendKeyPress
 import copy
 import rtmidi
 import sys
+import pickle
 
 from gui.LogDialog import LogDialog
 import traceback
 
 class MainWindow(QMainWindow, Ui_MainWindow):    
     settings = Settings()
-
+    fileName = None
     def midiCallback(self, midiMessage):
         self.print_message( midiMessage )
 
@@ -254,3 +255,44 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def showLog(self):
         self.logDialog.show()
+
+    def openTriggered(self):
+        fileName = QFileDialog.getOpenFileName(self, 'Open Mappings', '', 'Maps (*.map)')
+        if not fileName.endsWith('.map'):
+            fileName+='.map'
+        self.open( fileName )
+        self.fileName = fileName
+
+    def open(self, fileName):
+        #try:
+        maps = None
+        with open(fileName, 'r') as f:
+            maps = pickle.load(f)
+            self.mapList.setMaps(maps)
+        bas = maps
+        #except :
+        #    print 'file error'
+
+    def save(self, filename):
+        #try:
+        maps = self.mapList.maps()
+        with open(filename, 'w') as f:
+            pickle.dump( maps , f, pickle.HIGHEST_PROTOCOL)
+        #except :
+        #    print 'file error'
+
+    
+    def saveTriggered(self):
+        if not self.fileName:
+            self.saveAsTriggered()
+        else:
+            self.save(self.fileName)
+        
+
+    def saveAsTriggered(self):
+        fileName = QFileDialog.getSaveFileName(self, 'Save Mappings', '', 'Maps (*.map)')
+        if not fileName.endsWith('.map'):
+            fileName+='.map'
+
+        self.save( fileName )
+        self.fileName = fileName
