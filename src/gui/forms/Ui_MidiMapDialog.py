@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/home/prian/workspace/pyMidiMap/src/gui/forms/MidiMapDialog.ui'
 #
-# Created: Wed Jul  6 14:46:49 2011
+# Created: Wed Jul  6 16:15:05 2011
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -37,6 +37,7 @@ class Ui_MidiMapDialog(object):
         spacerItem1 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem1, 7, 2, 1, 1)
         self.midiCaptureCheckBox = QtGui.QCheckBox(self.MidiInputTab)
+        self.midiCaptureCheckBox.setChecked(True)
         self.midiCaptureCheckBox.setObjectName(_fromUtf8("midiCaptureCheckBox"))
         self.gridLayout.addWidget(self.midiCaptureCheckBox, 6, 2, 1, 1)
         self.inEventCombo = QtGui.QComboBox(self.MidiInputTab)
@@ -174,11 +175,11 @@ class Ui_MidiMapDialog(object):
         self.formLayout.setWidget(1, QtGui.QFormLayout.LabelRole, self.ouKeyRadioButton)
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
-        self.outKeyEdit = QtGui.QLineEdit(self.ActionTab)
-        self.outKeyEdit.setEnabled(False)
-        self.outKeyEdit.setReadOnly(True)
-        self.outKeyEdit.setObjectName(_fromUtf8("outKeyEdit"))
-        self.horizontalLayout.addWidget(self.outKeyEdit)
+        self.outKeysLabel = KeysEdit(self.ActionTab)
+        self.outKeysLabel.setEnabled(False)
+        self.outKeysLabel.setReadOnly(True)
+        self.outKeysLabel.setObjectName(_fromUtf8("outKeysLabel"))
+        self.horizontalLayout.addWidget(self.outKeysLabel)
         self.clearButton = QtGui.QPushButton(self.ActionTab)
         self.clearButton.setObjectName(_fromUtf8("clearButton"))
         self.horizontalLayout.addWidget(self.clearButton)
@@ -193,7 +194,7 @@ class Ui_MidiMapDialog(object):
         self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(MidiMapDialog)
-        self.mapperTabBox.setCurrentIndex(0)
+        self.mapperTabBox.setCurrentIndex(1)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), MidiMapDialog.accept)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), MidiMapDialog.reject)
         QtCore.QObject.connect(self.ouKeyRadioButton, QtCore.SIGNAL(_fromUtf8("clicked()")), MidiMapDialog.keySequenceClicked)
@@ -274,3 +275,4 @@ class Ui_MidiMapDialog(object):
         self.clearButton.setText(QtGui.QApplication.translate("MidiMapDialog", "Clear", None, QtGui.QApplication.UnicodeUTF8))
         self.mapperTabBox.setTabText(self.mapperTabBox.indexOf(self.ActionTab), QtGui.QApplication.translate("MidiMapDialog", "Action", None, QtGui.QApplication.UnicodeUTF8))
 
+from gui.KeysEdit import KeysEdit

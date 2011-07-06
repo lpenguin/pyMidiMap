@@ -19,6 +19,7 @@ class MidiMapDialog(QDialog, Ui_MidiMapDialog):
     def __init__(self, parent=None):
         QDialog.__init__(self, parent)
         self.setupUi(self)
+        self.outKeysLabel.keyPressSignal.connect( self.keyPressed )
         
     def midiCaptured(self, data):
         if self.midiCaptureCheckBox.isChecked():
@@ -36,7 +37,7 @@ class MidiMapDialog(QDialog, Ui_MidiMapDialog):
     
     def keySequenceClicked(self):
         ch = self.ouKeyRadioButton.isChecked()
-        self.outKeyEdit.setEnabled(ch)
+        self.outKeysLabel.setEnabled(ch)
         ch = not ch
         self.outChannelCombo.setEnabled( ch )
         self.outEventCombo.setEnabled( ch )
@@ -55,7 +56,7 @@ class MidiMapDialog(QDialog, Ui_MidiMapDialog):
         self.outValue1Combo.setEnabled( ch )
         self.outValue2Combo.setEnabled( ch )
         ch = not ch
-        self.outKeyEdit.setEnabled(ch)
+        self.outKeysLabel.setEnabled(ch)
     def combo2Modify(self, combo):
         if combo.currentIndex() == 0:
             return Modify.Add
@@ -80,7 +81,7 @@ class MidiMapDialog(QDialog, Ui_MidiMapDialog):
             self.ouKeyRadioButton.setChecked(False)
             self.outMidiRadioButton.setChecked(True)
 
-            self.outKeyEdit.setText('')
+            self.outKeysLabel.setText('')
 
             self.outChannelCombo.setCurrentIndex( self.map.action.channel )
             self.outEventCombo.setCurrentIndex( self.map.action.event )
@@ -105,7 +106,7 @@ class MidiMapDialog(QDialog, Ui_MidiMapDialog):
             
             if self.map.action.keys:
                 keys = ' '.join(self.map.action.keys)
-            self.outKeyEdit.setText(keys)
+            self.outKeysLabel.setText(keys)
 
         return QDialog.exec_(self)
 
@@ -126,19 +127,18 @@ class MidiMapDialog(QDialog, Ui_MidiMapDialog):
             self.map.action = MidiMessageAction( channel, event, value1, value2 )
         QDialog.accept(self)
 
-    def keyPressEvent(self, event):
+    def keyPressed(self, event):
         if self.ouKeyRadioButton.isChecked():
             seq = QKeySequence( event.key() )
             text = QString( seq )
             self.keyCodes.append( event.nativeVirtualKey() )
             self.keys.append( str( text ) )
 
-            self.outKeyEdit.setText( '')
+            self.outKeysLabel.setText( '')
             for code in self.keys:
-                    self.outKeyEdit.setText( self.outKeyEdit.text()+' '+code)
-            print "key press:", text
-
+                    self.outKeysLabel.setText( self.outKeysLabel.text()+' '+code)
+        
     def clearButtonPressed(self):
         self.keys = []
         self.keyCodes = []
-        self.outKeyEdit.setText( '')
+        self.outKeysLabel.setText('')
