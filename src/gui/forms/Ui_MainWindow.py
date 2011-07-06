@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/home/prian/workspace/pyMidiMap/src/gui/forms/MainWindow.ui'
 #
-# Created: Tue Jul  5 17:08:11 2011
+# Created: Wed Jul  6 12:57:25 2011
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -44,6 +44,8 @@ class Ui_MainWindow(object):
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.mapList = MidiMapTableWidget(self.centralwidget)
         self.mapList.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
+        self.mapList.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+        self.mapList.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.mapList.setRowCount(0)
         self.mapList.setColumnCount(2)
         self.mapList.setObjectName(_fromUtf8("mapList"))
@@ -54,8 +56,8 @@ class Ui_MainWindow(object):
         item = QtGui.QTableWidgetItem()
         self.mapList.setHorizontalHeaderItem(1, item)
         self.mapList.horizontalHeader().setCascadingSectionResizes(True)
-        self.mapList.horizontalHeader().setDefaultSectionSize(200)
-        self.mapList.horizontalHeader().setMinimumSectionSize(200)
+        self.mapList.horizontalHeader().setDefaultSectionSize(330)
+        self.mapList.horizontalHeader().setMinimumSectionSize(330)
         self.mapList.horizontalHeader().setStretchLastSection(True)
         self.mapList.verticalHeader().setVisible(False)
         self.verticalLayout.addWidget(self.mapList)
@@ -107,6 +109,7 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.actionOpen, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.openTriggered)
         QtCore.QObject.connect(self.actionSave, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.saveTriggered)
         QtCore.QObject.connect(self.actionSave_as, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.saveAsTriggered)
+        QtCore.QObject.connect(self.mapList, QtCore.SIGNAL(_fromUtf8("cellDoubleClicked(int,int)")), MainWindow.tableCellDoubleClicked)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

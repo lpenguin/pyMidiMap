@@ -20,13 +20,22 @@ class MidiMapDialog(QDialog, Ui_MidiMapDialog):
         QDialog.__init__(self, parent)
         self.setupUi(self)
         
-    def midiCaptureClicked(self):
-        pass
+    def midiCaptured(self, data):
+        if self.midiCaptureCheckBox.isChecked():
+            self.inChannelCombo.setCurrentIndex( data['channel'] )
+            self.inEventCombo.setCurrentIndex( data['event'] )
+            value1 = ''
+            value2 = ''
+            if data['value1']:
+                value1 = str(data['value1'])
+
+            if data['value2']:
+                value1 = str(data['value2'])
+            self.inValue1Edit.setText( value1 )
+            self.inValue2Edit.setText( value2 )
     
     def keySequenceClicked(self):
         ch = self.ouKeyRadioButton.isChecked()
-
-
         self.outKeyEdit.setEnabled(ch)
         ch = not ch
         self.outChannelCombo.setEnabled( ch )

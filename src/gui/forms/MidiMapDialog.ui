@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>504</width>
-    <height>272</height>
+    <height>276</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="mapperTabBox">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="MidiInputTab">
       <attribute name="title">
@@ -552,22 +552,6 @@
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>midiCaptureCheckBox</sender>
-   <signal>clicked()</signal>
-   <receiver>MidiMapDialog</receiver>
-   <slot>midiCaptureClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>142</x>
-     <y>181</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>184</x>
-     <y>131</y>
     </hint>
    </hints>
   </connection>

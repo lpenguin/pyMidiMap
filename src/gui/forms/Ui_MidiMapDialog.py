@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/home/prian/workspace/pyMidiMap/src/gui/forms/MidiMapDialog.ui'
 #
-# Created: Tue Jul  5 13:28:01 2011
+# Created: Wed Jul  6 12:42:01 2011
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -176,7 +176,6 @@ class Ui_MidiMapDialog(object):
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         self.outKeyEdit = QtGui.QLineEdit(self.ActionTab)
         self.outKeyEdit.setEnabled(False)
-        self.outKeyEdit.setReadOnly(True)
         self.outKeyEdit.setObjectName(_fromUtf8("outKeyEdit"))
         self.horizontalLayout.addWidget(self.outKeyEdit)
         self.clearButton = QtGui.QPushButton(self.ActionTab)
@@ -193,10 +192,9 @@ class Ui_MidiMapDialog(object):
         self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(MidiMapDialog)
-        self.mapperTabBox.setCurrentIndex(1)
+        self.mapperTabBox.setCurrentIndex(0)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), MidiMapDialog.accept)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), MidiMapDialog.reject)
-        QtCore.QObject.connect(self.midiCaptureCheckBox, QtCore.SIGNAL(_fromUtf8("clicked()")), MidiMapDialog.midiCaptureClicked)
         QtCore.QObject.connect(self.ouKeyRadioButton, QtCore.SIGNAL(_fromUtf8("clicked()")), MidiMapDialog.keySequenceClicked)
         QtCore.QObject.connect(self.outMidiRadioButton, QtCore.SIGNAL(_fromUtf8("clicked()")), MidiMapDialog.midiMessageClicked)
         QtCore.QObject.connect(self.clearButton, QtCore.SIGNAL(_fromUtf8("pressed()")), MidiMapDialog.clearButtonPressed)

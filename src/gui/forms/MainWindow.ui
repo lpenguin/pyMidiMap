@@ -72,6 +72,12 @@
       <property name="editTriggers">
        <set>QAbstractItemView::NoEditTriggers</set>
       </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
       <property name="rowCount">
        <number>0</number>
       </property>
@@ -82,10 +88,10 @@
        <bool>true</bool>
       </attribute>
       <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>200</number>
+       <number>330</number>
       </attribute>
       <attribute name="horizontalHeaderMinimumSectionSize">
-       <number>200</number>
+       <number>330</number>
       </attribute>
       <attribute name="horizontalHeaderStretchLastSection">
        <bool>true</bool>
@@ -353,6 +359,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>mapList</sender>
+   <signal>cellDoubleClicked(int,int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>tableCellDoubleClicked(int,int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>418</x>
+     <y>346</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>418</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showMidiWindow()</slot>
@@ -364,5 +386,6 @@
   <slot>openTriggered()</slot>
   <slot>saveTriggered()</slot>
   <slot>saveAsTriggered()</slot>
+  <slot>tableCellDoubleClicked(int,int)</slot>
  </slots>
 </ui>

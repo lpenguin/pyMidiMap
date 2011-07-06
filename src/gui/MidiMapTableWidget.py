@@ -6,7 +6,6 @@ from PyQt4.QtGui import QTableWidget
 from PyQt4.QtGui import QTableWidgetItem
 
 class MidiMapTableWidget(QTableWidget):
-    __maps = []
     def __init__(self, parent=None):
         QTableWidget.__init__(self, parent)
         self.__maps = []
@@ -24,6 +23,10 @@ class MidiMapTableWidget(QTableWidget):
     
         self.setItem(row, 0, QTableWidgetItem(map.message.toString()))
         self.setItem(row, 1, QTableWidgetItem(map.action.toString()))
+        self.resizeRowsToContents()
+
+        if not len( self.selectedIndexes() ):
+            self.selectRow( 0 )
 
 
     def removeMidiMap(self, index):
