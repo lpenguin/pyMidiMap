@@ -49,8 +49,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.logDialog = LogDialog( self )
         self.midiIn = rtmidi.RtMidiIn()
         self.midiOut = rtmidi.RtMidiOut()
-        self.midiMapper = MidiMapper()
+        self.midiMapper = MidiMapper(self.midiIn, self.midiOut)
         self.midiMapper.maps = self.mapList.maps()
+        #self.connect(self.midiMapper, SIGNAL('midiCaptured( midi )'), self, SLOT( 'midiCaptured(self, midi )') )
+        self.midiMapper.midiSignal.connect( self.midiCaptured )
+        self.midiMapper.remapSignal.connect( self.midiRemapped )
 
 
     def tableCellDoubleClicked(self, row, column):
@@ -148,14 +151,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.save( fileName )
         self.fileName = fileName
 
-    def midiCaptured(self, midi):
-        self.printMessage(midi)
-        if self.midiMapDialog.isVisible():
-            data = self.midi2data( midi )
-            self.midiMapDialog.midiCaptured( data)
-
-    def printMessage(self, midi):
-        self.sendToLog(messageToStr(midi))
 
     def sendToLog(self, message):
         self.emit(SIGNAL('newLogMessage'), message)
@@ -165,3 +160,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.logDialog.logEdit.setPlainText('%s\n%s' % (self.logDialog.logEdit.toPlainText(), message) )
         else:
             self.logDialog.logEdit.setPlainText( message )
+
+    def midiCaptured(self, midi):
+        self.sendToLog('captured: '+midiToStr(midi))
+        if self.midiMapDialog.isVisible():
+            data = midi2data( midi )
+            self.midiMapDialog.midiCaptured( data )
+
+    def midiRemapped(self, midi):
+        self.sendToLog('remapped: '+midiToStr(midi))

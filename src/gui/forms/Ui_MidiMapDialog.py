@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/home/prian/workspace/pyMidiMap/src/gui/forms/MidiMapDialog.ui'
 #
-# Created: Wed Jul  6 12:42:01 2011
+# Created: Wed Jul  6 14:46:49 2011
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -176,6 +176,7 @@ class Ui_MidiMapDialog(object):
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         self.outKeyEdit = QtGui.QLineEdit(self.ActionTab)
         self.outKeyEdit.setEnabled(False)
+        self.outKeyEdit.setReadOnly(True)
         self.outKeyEdit.setObjectName(_fromUtf8("outKeyEdit"))
         self.horizontalLayout.addWidget(self.outKeyEdit)
         self.clearButton = QtGui.QPushButton(self.ActionTab)

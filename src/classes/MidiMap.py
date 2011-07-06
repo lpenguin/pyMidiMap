@@ -1,10 +1,11 @@
 __author__ = 'prian'
 from Misc import *
+import rtmidi
 
 Modify = enum('Same', 'Add', 'Assign')
 EventType = enum('Any', 'NoteOn', 'NoteOff', 'Aftertouch', 'Control', 'ProgramChange', 'Pitchbend')
 
-def data2Midi(self, channel = 0, event = EventType.Any, value1 = None, value2 = None):
+def data2Midi( channel = 0, event = EventType.Any, value1 = None, value2 = None):
 
     if event == EventType.NoteOn:
         return rtmidi.MidiMessage.noteOn(channel, value1, value2 )
@@ -21,7 +22,7 @@ def data2Midi(self, channel = 0, event = EventType.Any, value1 = None, value2 = 
 
     return None
 
-def midi2data(self, midi):
+def midi2data( midi):
     channel = midi.getChannel()
     value1 = None
     value2 = None
@@ -49,16 +50,16 @@ def midi2data(self, midi):
         value1 = midi.getPitchWheelValue()
     return dict( channel=channel, event = event, value1 = value1, value2 = value2 )
 
-def messageToStr(self, midi):
-    text = 'msg'
+def midiToStr( midi):
+    text = ''
     if midi.isNoteOn():
         text = '%s %s %s'%( 'ON: ', midi.getMidiNoteName(midi.getNoteNumber()) , midi.getVelocity() )
     elif midi.isNoteOff():
-        text = ''.join( ['OFF:', midi.getMidiNoteName(midi.getNoteNumber())] )
+        text = ''.join( ['OFF: ', midi.getMidiNoteName(midi.getNoteNumber())] )
     elif midi.isController():
-        text = ''.join( ['CONTROLLER', str(midi.getControllerNumber()), str(midi.getControllerValue())] )
+        text = ''.join( ['CONTROLLER: ', str(midi.getControllerNumber()), str(midi.getControllerValue())] )
     elif midi.isSysEx():
-        text = ''.join( ['SYSEX (%i bytes)' % midi.getSysExData()] )
+        text = ''.join( ['SYSEX (%i bytes): ' % midi.getSysExData()] )
     elif midi.isAftertouch():
         text = ''.join( ['AFTERTOUCH: ', midi.getAfterTouchValue()] )
     elif midi.isPitchWheel():
@@ -85,17 +86,20 @@ class MidiMessage(object):
         return 'channel: %s, event: %s, value1: %s, value2: %s' % (channel, event, value1, value2)
 
 class MappedValue(object):
-    def __init__(self, value=0, type = Modify.Same):
+    def __init__(self, value = 0, type = Modify.Same):
         self.type = type
-        self.value = value
-        
+        self.setValue( value)
+
+    def setValue(self, value):
+        self.value = int( str( value ) )
+
     def toString(self):
         if self.type == Modify.Add:
-            return "+= "+self.value
+            return "+= "+str(self.value)
         elif self.type == Modify.Same:
             return 'same'
         else:
-            return "= "+self.value
+            return "= "+str(self.value)
         
     def modify(self, value):
         if self.type == Modify.Same:
@@ -120,7 +124,7 @@ class KeyPressAction(MapAction):
         return 'keys: '+', '.join(self.keys)
 
 class MidiMessageAction(MapAction):
-    def __init__(self, channel = 0, event = EventType.Any, value1 = MappedValue(''), value2 = MappedValue('')):
+    def __init__(self, channel = 0, event = EventType.Any, value1 = MappedValue(), value2 = MappedValue()):
         self.channel = channel
         self.event = event
         self.value1 = value1

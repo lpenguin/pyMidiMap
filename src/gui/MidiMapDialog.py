@@ -71,8 +71,8 @@ class MidiMapDialog(QDialog, Ui_MidiMapDialog):
     def exec_(self):
         self.inEventCombo.setCurrentIndex(self.map.message.event)
         self.inChannelCombo.setCurrentIndex(self.map.message.channel)
-        self.inValue1Edit.setText( self.map.message.value1)
-        self.inValue2Edit.setText( self.map.message.value2)
+        self.inValue1Edit.setText( self.map.message.value1 )
+        self.inValue2Edit.setText( self.map.message.value2 )
         
         #return QDialog.exec_(self)
         
