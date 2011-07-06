@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/home/prian/workspace/pyMidiMap/src/gui/forms/MainWindow.ui'
 #
-# Created: Wed Jul  6 12:57:25 2011
+# Created: Wed Jul  6 16:49:50 2011
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -72,9 +72,6 @@ class Ui_MainWindow(object):
         self.menuView = QtGui.QMenu(self.menubar)
         self.menuView.setObjectName(_fromUtf8("menuView"))
         MainWindow.setMenuBar(self.menubar)
-        self.toolBar = QtGui.QToolBar(MainWindow)
-        self.toolBar.setObjectName(_fromUtf8("toolBar"))
-        MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
         self.actionMidi = QtGui.QAction(MainWindow)
         self.actionMidi.setObjectName(_fromUtf8("actionMidi"))
         self.actionExit = QtGui.QAction(MainWindow)
@@ -87,6 +84,9 @@ class Ui_MainWindow(object):
         self.actionSave.setObjectName(_fromUtf8("actionSave"))
         self.actionSave_as = QtGui.QAction(MainWindow)
         self.actionSave_as.setObjectName(_fromUtf8("actionSave_as"))
+        self.actionNew = QtGui.QAction(MainWindow)
+        self.actionNew.setObjectName(_fromUtf8("actionNew"))
+        self.menuFile.addAction(self.actionNew)
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addAction(self.actionSave)
         self.menuFile.addAction(self.actionSave_as)
@@ -124,12 +124,12 @@ class Ui_MainWindow(object):
         self.menuFile.setTitle(QtGui.QApplication.translate("MainWindow", "File", None, QtGui.QApplication.UnicodeUTF8))
         self.menuSettings.setTitle(QtGui.QApplication.translate("MainWindow", "Settings", None, QtGui.QApplication.UnicodeUTF8))
         self.menuView.setTitle(QtGui.QApplication.translate("MainWindow", "View", None, QtGui.QApplication.UnicodeUTF8))
-        self.toolBar.setWindowTitle(QtGui.QApplication.translate("MainWindow", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
         self.actionMidi.setText(QtGui.QApplication.translate("MainWindow", "Midi Ports", None, QtGui.QApplication.UnicodeUTF8))
         self.actionExit.setText(QtGui.QApplication.translate("MainWindow", "Exit", None, QtGui.QApplication.UnicodeUTF8))
         self.actionLog.setText(QtGui.QApplication.translate("MainWindow", "Log", None, QtGui.QApplication.UnicodeUTF8))
         self.actionOpen.setText(QtGui.QApplication.translate("MainWindow", "Open", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSave.setText(QtGui.QApplication.translate("MainWindow", "Save", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSave_as.setText(QtGui.QApplication.translate("MainWindow", "Save as...", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionNew.setText(QtGui.QApplication.translate("MainWindow", "New", None, QtGui.QApplication.UnicodeUTF8))
 
 from gui.MidiMapTableWidget import MidiMapTableWidget

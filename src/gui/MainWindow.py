@@ -3,10 +3,11 @@ Created on 28.06.2011
 
 @author: prian
 '''
+import PyQt4
 from PyQt4.QtGui import QMainWindow
 from PyQt4.QtGui import QDialog
 from PyQt4.QtCore import *
-from PyQt4.QtGui import QFileDialog
+from PyQt4.QtGui import QFileDialog, QStyle
 from PyQt4.QtGui import QMessageBox
 
 from forms.Ui_MainWindow import Ui_MainWindow
@@ -43,7 +44,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         QMainWindow.__init__(self, parent)
         self.setupUi(self)
-        #self.mapList.setModel(self.midiMapModel)
+        style = PyQt4.QtGui.qApp.style()
+
+        self.actionOpen.setIcon( QStyle.standardIcon( style ,QStyle.SP_DialogOpenButton ))
+        self.actionSave.setIcon( QStyle.standardIcon( style ,QStyle.SP_DialogSaveButton ))
+        self.actionNew.setIcon( QStyle.standardIcon( style ,QStyle.SP_FileIcon ))
+        #self.actionOpen.setIcon( QStyle.standardIcon( style ,QStyle.SP_DialogOpenButton ))
+                                        #self.mapList.setModel(self.midiMapModel)
         self.midiSettingsDialog = MidiSettingsDialog( self )
         self.midiMapDialog = MidiMapDialog( self )
         self.logDialog = LogDialog( self )
@@ -78,19 +85,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         
     def addMap(self):
+        self.midiMapper.stopRemap()
         self.midiMapDialog.map = MidiMap()
         if self.midiMapDialog.exec_() == QDialog.Accepted:
             self.mapList.addMidiMap(self.midiMapDialog.map)
+        self.midiMapper.startRemap()
 
 
 
     def editMap(self):
+        self.midiMapper.stopRemap()
         row  = self.mapList.currentRow()
         if row == -1:
             return
         self.midiMapDialog.map = self.mapList.getMidiMap( row )
         if self.midiMapDialog.exec_() == QDialog.Accepted:
             self.mapList.setMidiMap( row, self.midiMapDialog.map)
+        self.midiMapper.startRemap()
 
     
     def removeMap(self):
@@ -101,6 +112,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
     def duplicateMap(self):
+        self.midiMapper.stopRemap()
         row  = self.mapList.currentRow()
         if row == -1:
             return
@@ -108,6 +120,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.midiMapDialog.map = map
         if self.midiMapDialog.exec_() == QDialog.Accepted:
             self.mapList.addMidiMap( self.midiMapDialog.map)
+        self.midiMapper.startRemap()
 
     def showLog(self):
         self.logDialog.show()

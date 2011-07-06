@@ -17,7 +17,13 @@ class MidiMapper(QObject):
         self.midiIn = midiIn
         self.midiOut = midiOut
         self.maps = []
+        self.__remapping = True
 
+    def startRemap(self):
+        self.__remapping = True
+
+    def stopRemap(self):
+        self.__remapping = False
         
     def processAction(self, map, midi):
         print "remapping midi"
@@ -80,7 +86,8 @@ class MidiMapper(QObject):
     def midiCallback(self, midi):
         try:
             #self.emit( QtCore.SIGNAL('midiCaptured'), midi)
-            self.processMidiMessage( midi )
+            if self.__remapping:
+                self.processMidiMessage( midi )
             self.midiSignal.emit( midi )
         except Exception, err:
             print "Exception:", err

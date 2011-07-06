@@ -8,7 +8,6 @@ from forms.Ui_MidiMapDialog import Ui_MidiMapDialog
 from classes.Settings import Settings
 from classes.MidiMap import *
 from PyQt4.Qt import *
-import platform
 
 class MidiMapDialog(QDialog, Ui_MidiMapDialog):
     settings = Settings()

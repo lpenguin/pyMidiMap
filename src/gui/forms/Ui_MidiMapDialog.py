@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/home/prian/workspace/pyMidiMap/src/gui/forms/MidiMapDialog.ui'
 #
-# Created: Wed Jul  6 16:15:05 2011
+# Created: Wed Jul  6 16:50:52 2011
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -194,7 +194,7 @@ class Ui_MidiMapDialog(object):
         self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(MidiMapDialog)
-        self.mapperTabBox.setCurrentIndex(1)
+        self.mapperTabBox.setCurrentIndex(0)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), MidiMapDialog.accept)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), MidiMapDialog.reject)
         QtCore.QObject.connect(self.ouKeyRadioButton, QtCore.SIGNAL(_fromUtf8("clicked()")), MidiMapDialog.keySequenceClicked)
