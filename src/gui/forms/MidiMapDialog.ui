@@ -217,10 +217,10 @@
         </widget>
        </item>
        <item row="4" column="2">
-        <widget class="QLineEdit" name="inValue1Edit"/>
+        <widget class="ClickedLineEdit" name="inValue1Edit"/>
        </item>
        <item row="5" column="2">
-        <widget class="QLineEdit" name="inValue2Edit"/>
+        <widget class="ClickedLineEdit" name="inValue2Edit"/>
        </item>
        <item row="4" column="3">
         <widget class="QLabel" name="label_9">
@@ -533,6 +533,11 @@
    <extends>QLineEdit</extends>
    <header>gui/KeysEdit.h</header>
   </customwidget>
+  <customwidget>
+   <class>ClickedLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>gui/ClickedLineEdit.h</header>
+  </customwidget>
  </customwidgets>
  <resources/>
  <connections>
@@ -570,7 +575,7 @@
   </connection>
   <connection>
    <sender>ouKeyRadioButton</sender>
-   <signal>clicked()</signal>
+   <signal>toggled(bool)</signal>
    <receiver>MidiMapDialog</receiver>
    <slot>keySequenceClicked()</slot>
    <hints>
@@ -586,7 +591,7 @@
   </connection>
   <connection>
    <sender>outMidiRadioButton</sender>
-   <signal>clicked()</signal>
+   <signal>toggled(bool)</signal>
    <receiver>MidiMapDialog</receiver>
    <slot>midiMessageClicked()</slot>
    <hints>

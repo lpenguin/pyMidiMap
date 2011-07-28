@@ -19,6 +19,7 @@ import copy
 import rtmidi
 import sys
 import pickle
+import traceback
 
 from gui.LogDialog import LogDialog
 
@@ -121,7 +122,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.midiMapDialog.exec_() == QDialog.Accepted:
             self.mapList.addMidiMap( self.midiMapDialog.map)
         self.midiMapper.startRemap()
-
+        self.mapList.selectRow(self.mapList.rowCount() - 1)
     def showLog(self):
         self.logDialog.show()
 
@@ -134,16 +135,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def open(self, fileName):
         try:
-            with open(fileName, 'r') as f:
+            with open(fileName, 'rb') as f:
                 maps = pickle.load(f)
                 self.mapList.setMaps(maps)
+        except Exception, err:
+            print "Exception:", err
+            traceback.print_exc(file=sys.stdout)
+
         except :
-            print 'open error'
+            print "Unexpected error:", sys.exc_info()[0]
+            traceback.print_exc(file=sys.stdout)
+
 
     def save(self, filename):
         try:
             maps = self.mapList.maps()
-            with open(filename, 'w') as f:
+            with open(filename, 'wb') as f:
                 pickle.dump( maps , f, pickle.HIGHEST_PROTOCOL)
         except :
             print 'save error'
@@ -182,3 +189,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def midiRemapped(self, midi):
         self.sendToLog('remapped: '+midiToStr(midi))
+
+    def newMap(self):
+        self.mapList.clearMaps()
+        self.fileName = None

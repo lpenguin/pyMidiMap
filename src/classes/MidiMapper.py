@@ -46,7 +46,7 @@ class MidiMapper(QObject):
                     event = action.event
                 resMidi = data2Midi( channel, event, value1, value2 )
                 if resMidi:
-                    #self.midiOut.sendMessage( resMidi )
+                    self.midiOut.sendMessage( resMidi )
                     self.remapSignal.emit( resMidi )
                 else:
                     print "wrong message"

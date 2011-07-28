@@ -19,6 +19,8 @@ class MidiMapDialog(QDialog, Ui_MidiMapDialog):
         QDialog.__init__(self, parent)
         self.setupUi(self)
         self.outKeysLabel.keyPressSignal.connect( self.keyPressed )
+        self.inValue1Edit.clicked.connect( self.inValue1Edit.selectAll )
+        self.inValue2Edit.clicked.connect( self.inValue2Edit.selectAll )
         
     def midiCaptured(self, data):
         if self.midiCaptureCheckBox.isChecked():
@@ -30,7 +32,7 @@ class MidiMapDialog(QDialog, Ui_MidiMapDialog):
                 value1 = str(data['value1'])
 
             if data['value2']:
-                value1 = str(data['value2'])
+                value2 = str(data['value2'])
             self.inValue1Edit.setText( value1 )
             self.inValue2Edit.setText( value2 )
     
@@ -44,6 +46,7 @@ class MidiMapDialog(QDialog, Ui_MidiMapDialog):
         self.outValue2Edit.setEnabled( ch )
         self.outValue1Combo.setEnabled( ch )
         self.outValue2Combo.setEnabled( ch )
+        self.outKeysLabel.setFocus()
 
     
     def midiMessageClicked(self):
@@ -73,7 +76,9 @@ class MidiMapDialog(QDialog, Ui_MidiMapDialog):
         self.inChannelCombo.setCurrentIndex(self.map.message.channel)
         self.inValue1Edit.setText( self.map.message.value1 )
         self.inValue2Edit.setText( self.map.message.value2 )
-        
+        self.keys = []
+        self.keyCodes = []
+        self.outKeysLabel.setText('')
         #return QDialog.exec_(self)
         
         if isinstance(self.map.action, MidiMessageAction):
@@ -93,6 +98,8 @@ class MidiMapDialog(QDialog, Ui_MidiMapDialog):
             #self.modify2combo(self.outValue1Combo, self.map.action.value1.type )
             #self.modify2combo(self.outValue2Combo, self.map.action.value2.type )
         else:
+            self.ouKeyRadioButton.setChecked(True)
+            self.outMidiRadioButton.setChecked(False)
             self.outChannelCombo.setCurrentIndex( 0 )
             self.outEventCombo.setCurrentIndex( 0 )
             self.outValue1Edit.setText( '' )
@@ -106,6 +113,8 @@ class MidiMapDialog(QDialog, Ui_MidiMapDialog):
             if self.map.action.keys:
                 keys = ' '.join(self.map.action.keys)
             self.outKeysLabel.setText(keys)
+            self.keys = self.map.action.keys
+            self.keyCodes  = self.map.action.keyCodes
 
         return QDialog.exec_(self)
 
@@ -141,3 +150,4 @@ class MidiMapDialog(QDialog, Ui_MidiMapDialog):
         self.keys = []
         self.keyCodes = []
         self.outKeysLabel.setText('')
+        self.outKeysLabel.setFocus()

@@ -50,8 +50,10 @@ class MidiMapTableWidget(QTableWidget):
         return self.__maps
 
     def setMaps(self, maps):
-        self.__maps = []
-        for i in range(len(self.__maps)):
-            self.removeMidiMap(0)
+        self.clearMaps()
         for map in maps:
             self.addMidiMap(map)
+    def clearMaps(self):
+        for i in range(len(self.__maps)):
+            self.removeMidiMap(0)
+        self.__maps = []

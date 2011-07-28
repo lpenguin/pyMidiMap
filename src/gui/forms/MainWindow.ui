@@ -153,35 +153,56 @@
    <property name="text">
     <string>Midi Ports</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
   </action>
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
    </property>
   </action>
   <action name="actionLog">
    <property name="text">
     <string>Log</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
   </action>
   <action name="actionOpen">
    <property name="text">
     <string>Open</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
    </property>
   </action>
   <action name="actionSave">
    <property name="text">
     <string>Save</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
   </action>
   <action name="actionSave_as">
    <property name="text">
     <string>Save as...</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
   </action>
   <action name="actionNew">
    <property name="text">
     <string>New</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
    </property>
   </action>
  </widget>
@@ -370,6 +391,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionNew</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>newMap()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>418</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showMidiWindow()</slot>
@@ -382,5 +419,6 @@
   <slot>saveTriggered()</slot>
   <slot>saveAsTriggered()</slot>
   <slot>tableCellDoubleClicked(int,int)</slot>
+  <slot>newMap()</slot>
  </slots>
 </ui>
