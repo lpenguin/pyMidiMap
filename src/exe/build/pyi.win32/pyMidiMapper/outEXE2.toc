@@ -1,0 +1,10 @@
+('exe\\dist\\pyMidiMapper.exe',
+ True,
+ False,
+ None,
+ None,
+ [],
+ False,
+ True,
+ 0,
+ 1311857079L)
